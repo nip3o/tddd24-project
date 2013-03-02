@@ -4,9 +4,24 @@
 	xmlns:b="urn:import:com.github.gwtbootstrap.client.ui">
 	
 	<g:HTMLPanel>
-	<b:Row>
-		<b:Column size="4"><g:Label>Meeep!</g:Label></b:Column>
-		<b:Column size="8"><b:Button ui:field="button">Humm</b:Button></b:Column>
-	</b:Row>
+	    <b:FluidContainer>
+			<b:FluidRow>
+				<b:Column size="2">
+				   <b:Row>
+				       <b:Column size="1">
+				       </b:Column>
+				   		<b:Column ui:field="categories" size="11">
+				   		    <b:Heading size="4" text="Categories"></b:Heading>
+				    	</b:Column>
+				    </b:Row>
+				</b:Column>
+				<b:Column size="10">
+				    <b:Hero>
+				    <b:Heading size="2">Welcome to our awesome webshop!</b:Heading>
+				    <b:Paragraph>Pick a category in the menu to the left.</b:Paragraph>
+				    </b:Hero>
+				</b:Column>
+			</b:FluidRow>
+		</b:FluidContainer>
 	</g:HTMLPanel>
 </ui:UiBinder> 
