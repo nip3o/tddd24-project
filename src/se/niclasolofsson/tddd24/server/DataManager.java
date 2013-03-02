@@ -8,9 +8,9 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 
-import se.niclasolofsson.tddd24.client.Category;
+import se.niclasolofsson.tddd24.shared.Category;
 import se.niclasolofsson.tddd24.client.NotFoundException;
-import se.niclasolofsson.tddd24.client.Product;
+import se.niclasolofsson.tddd24.shared.Product;
 
 public class DataManager {
 	private Connection conn;
@@ -36,12 +36,12 @@ public class DataManager {
 			s = conn.createStatement();
 			
 			s.executeUpdate("DROP TABLE IF EXISTS categories");
-			s.executeUpdate("CREATE TABLE categories (id INT NOT NULL AUTO_INCREMENT, name STRING)");
+			s.executeUpdate("CREATE TABLE categories (id INT NOT NULL AUTOINCREMENT, name STRING)");
 			s.executeUpdate("INSERT INTO categories (name) VALUES ('Giraffes')");
 			s.executeUpdate("INSERT INTO categories (name) VALUES ('Aligators')");
 			
 			s.executeUpdate("DROP TABLE IF EXISTS products");
-			s.executeUpdate("CREATE TABLE products (id INT NOT NULL AUTO_INCREMENT, name STRING, description TEXT, price FLOAT, stock INT, category INT)");
+			s.executeUpdate("CREATE TABLE products (id INT NOT NULL AUTOINCREMENT, name STRING, description TEXT, price FLOAT, stock INT, category INT)");
 
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block

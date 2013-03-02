@@ -6,6 +6,15 @@
          xmlns="http://java.sun.com/xml/ns/javaee">
 
   <!-- Servlets -->
+  <servlet>
+    <servlet-name>productsServiceImpl</servlet-name>
+    <servlet-class>se.niclasolofsson.tddd24.server.ProductsServiceImpl</servlet-class>
+  </servlet>
+
+  <servlet-mapping>
+    <servlet-name>productsServiceImpl</servlet-name>
+    <url-pattern>/tddd24_project/products</url-pattern>
+  </servlet-mapping>
   
   <!-- Default page to serve -->
   <welcome-file-list>

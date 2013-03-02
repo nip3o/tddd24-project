@@ -1,5 +1,7 @@
 package se.niclasolofsson.tddd24.client;
 
+import se.niclasolofsson.tddd24.shared.Category;
+
 import com.github.gwtbootstrap.client.ui.Column;
 import com.github.gwtbootstrap.client.ui.base.IconAnchor;
 import com.google.gwt.core.client.GWT;
@@ -15,7 +17,6 @@ import com.google.gwt.user.client.ui.Widget;
 public class ProductList extends Composite {
 	@UiField
 	Column categoryList;
-	private ProductsServiceAsync productsService = GWT.create(ProductsServiceAsync.class);
 	
 	private static ProductListUiBinder uiBinder = GWT
 			.create(ProductListUiBinder.class);
@@ -23,7 +24,7 @@ public class ProductList extends Composite {
 	interface ProductListUiBinder extends UiBinder<Widget, ProductList> {
 	}
 	
-/*	private void addCategories(Category[] categories) {
+	private void addCategories(Category[] categories) {
 		IconAnchor a;
 		
 		for(final Category c : categories) {
@@ -36,12 +37,12 @@ public class ProductList extends Composite {
 			a.setText(c.getName());
 			categoryList.add(a);
 		}
-	}*/
+	}
 
 	public ProductList() {
 		initWidget(uiBinder.createAndBindUi(this));
 		
-/*		final AsyncCallback<Category[]> categoriesCallback = new AsyncCallback<Category[]>() {
+		final AsyncCallback<Category[]> categoriesCallback = new AsyncCallback<Category[]>() {
 		      public void onFailure(Throwable caught) {}
 		      public void onSuccess(Category[] result) {
 		    	  addCategories(result);
@@ -51,11 +52,10 @@ public class ProductList extends Composite {
 		final AsyncCallback<Void> initCallback = new AsyncCallback<Void>() {
 		      public void onFailure(Throwable caught) {}
 		      public void onSuccess(Void result) {
-		    	  productsService.getCategories(categoriesCallback);
+		    	  //productsService.getCategories(categoriesCallback);
 		      }
-		};*/
+		};
 		
-		//productsService = GWT.create(ProductsServiceAsync.class);
-		//productsService.init(initCallback);
+
 	}
 }

@@ -1,6 +1,13 @@
-package se.niclasolofsson.tddd24.client;
+package se.niclasolofsson.tddd24.shared;
 
-public class Category {
+import java.io.Serializable;
+
+public class Category implements Serializable {
+	private static final long serialVersionUID = 1L;
+
+	Category() {
+	}
+	
 	public String getName() {
 		return name;
 	}

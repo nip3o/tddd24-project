@@ -1,13 +1,12 @@
 package se.niclasolofsson.tddd24.server;
 
-import se.niclasolofsson.tddd24.client.Category;
+import se.niclasolofsson.tddd24.shared.Category;
 import se.niclasolofsson.tddd24.client.ProductsService;
 
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 
-public class ProductsServiceImpl extends RemoteServiceServlet implements
-		ProductsService {
-	private static final long serialVersionUID = 2L;
+public class ProductsServiceImpl extends RemoteServiceServlet implements ProductsService {
+	private static final long serialVersionUID = 3L;
 	
 	private DataManager dm;
 	

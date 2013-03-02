@@ -1,4 +1,4 @@
-package se.niclasolofsson.tddd24.client;
+package se.niclasolofsson.tddd24.shared;
 
 public class Product {
 	String name;
