@@ -2,6 +2,7 @@ package se.niclasolofsson.tddd24.client;
 
 import se.niclasolofsson.tddd24.shared.Category;
 import se.niclasolofsson.tddd24.shared.Product;
+import se.niclasolofsson.tddd24.shared.ShoppingCart;
 
 import com.github.gwtbootstrap.client.ui.Button;
 import com.github.gwtbootstrap.client.ui.Column;
@@ -24,6 +25,10 @@ public class ProductList extends Composite {
 	Column categoryList;
 	@UiField
 	Column productList;
+	@UiField
+	Column shoppingCartList;
+	
+	private ShoppingCart cart;
 	
 	ProductsServiceAsync productsService;
 	
@@ -33,7 +38,7 @@ public class ProductList extends Composite {
 	interface ProductListUiBinder extends UiBinder<Widget, ProductList> {
 	}
 
-	private void listProducts(Category c, Product[] products) {
+	private void listProducts(final Category c, final Product[] products) {
 		FluidRow r = new FluidRow();
 		productList.clear();
 		
@@ -41,13 +46,25 @@ public class ProductList extends Composite {
 		r.add(category);
 	
 		for(final Product p : products) {
-			r.add(p.getWidget());
-			r.add(new Button("Add to cart", IconType.PLUS));
+			r.add(p.asWidget());
+			if(p.getStock() > 0) {
+				Button addButton = new Button("Add to cart", IconType.PLUS);
+				addButton.addClickHandler(new ClickHandler() {
+					@Override
+					public void onClick(ClickEvent event) {
+						cart.addProduct(p, 1);
+						shoppingCartList.clear();
+						shoppingCartList.add(cart.asWidget());
+						listProducts(c, products);
+					}
+				});
+				r.add(addButton);	
+			}
 		}
 		
 		if(products.length == 0) {
 			r.add(new Label("This category is empty!"));
-		}
+		} 
 		
 		productList.add(r);
 	}
@@ -81,8 +98,9 @@ public class ProductList extends Composite {
 		}
 	}
 
-	public ProductList(final ProductsServiceAsync productsService) {
+	public ProductList(final ProductsServiceAsync productsService, ShoppingCart cart) {
 		this.productsService = productsService;
+		this.cart = cart;
 		
 		initWidget(uiBinder.createAndBindUi(this));
 		

@@ -20,7 +20,7 @@ public class Product implements Serializable {
 		
 	}
 	
-	public IsWidget getWidget() {
+	public IsWidget asWidget() {
 		LabelType type = LabelType.SUCCESS;
 		String stockText;
 		FluidRow r = new FluidRow();
@@ -32,8 +32,8 @@ public class Product implements Serializable {
 		
 		if(this.stock > 0) {
 			stockText = this.stock + " in stock";
-			type = LabelType.SUCCESS;
-			
+			type = (this.stock == 1) ? LabelType.WARNING : LabelType.SUCCESS;
+
 		} else {
 			stockText = "Not in stock";
 			type = LabelType.IMPORTANT;

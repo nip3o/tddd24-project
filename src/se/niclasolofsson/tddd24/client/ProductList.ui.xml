@@ -7,13 +7,17 @@
 	    <b:FluidContainer>
 			<b:FluidRow>
 				<b:Column size="2">
-				   <b:Row>
-				       <b:Column size="1">
-				       </b:Column>
+				   <b:Heading size="4" text="Categories"></b:Heading>
+				   <b:FluidRow>
 				   		<b:Column ui:field="categoryList" size="11">
-				   		    <b:Heading size="4" text="Categories"></b:Heading>
 				    	</b:Column>
-				    </b:Row>
+				    </b:FluidRow>
+				    
+				   	<b:Heading size="4" text="Shopping cart"></b:Heading>
+				    <b:FluidRow>
+				   		<b:Column ui:field="shoppingCartList" size="11">
+				    	</b:Column>
+				    </b:FluidRow>
 				</b:Column>
 				<b:Column ui:field="productList" size="10">
 				    <b:Hero>
