@@ -3,9 +3,12 @@ package se.niclasolofsson.tddd24.client;
 import se.niclasolofsson.tddd24.shared.Category;
 import se.niclasolofsson.tddd24.shared.Product;
 
+import com.github.gwtbootstrap.client.ui.Button;
 import com.github.gwtbootstrap.client.ui.Column;
 import com.github.gwtbootstrap.client.ui.FluidRow;
+import com.github.gwtbootstrap.client.ui.Heading;
 import com.github.gwtbootstrap.client.ui.base.IconAnchor;
+import com.github.gwtbootstrap.client.ui.constants.IconType;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
@@ -30,28 +33,30 @@ public class ProductList extends Composite {
 	interface ProductListUiBinder extends UiBinder<Widget, ProductList> {
 	}
 
-	private void listProducts(Product[] products) {
-		FluidRow r;
+	private void listProducts(Category c, Product[] products) {
+		FluidRow r = new FluidRow();
 		productList.clear();
+		
+		Heading category = new Heading(2, c.getName());
+		r.add(category);
 	
 		for(final Product p : products) {
-			r = new FluidRow();
-			r.add(new Label(p.getName()));
-			productList.add(r);
+			r.add(p.getWidget());
+			r.add(new Button("Add to cart", IconType.PLUS));
 		}
 		
 		if(products.length == 0) {
-			r = new FluidRow();
 			r.add(new Label("This category is empty!"));
-			productList.add(r);
 		}
+		
+		productList.add(r);
 	}
 	
-	private void listProducts(Category c) {
+	private void listProducts(final Category c) {
 		final AsyncCallback<Product[]> productsCallback = new AsyncCallback<Product[]>() {
 		      public void onFailure(Throwable caught) {}
 		      public void onSuccess(Product[] result) {
-		    	  listProducts(result);
+		    	  listProducts(c, result);
 		      }
 		};
 		
