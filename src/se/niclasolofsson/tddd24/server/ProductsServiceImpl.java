@@ -1,6 +1,7 @@
 package se.niclasolofsson.tddd24.server;
 
 import se.niclasolofsson.tddd24.shared.Category;
+import se.niclasolofsson.tddd24.shared.Product;
 import se.niclasolofsson.tddd24.client.ProductsService;
 
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
@@ -21,7 +22,15 @@ public class ProductsServiceImpl extends RemoteServiceServlet implements Product
 	@Override
 	public Category[] getCategories() {
 		dm.connect();
-		Category[] res = (Category[]) dm.getCategories().toArray();
+		Category[] res = dm.getCategories();
+		dm.close();
+		return res;
+	}
+
+	@Override
+	public Product[] getProducts(Category c) {
+		dm.connect();
+		Product[] res = dm.getProducts(c);
 		dm.close();
 		return res;
 	}

@@ -9,7 +9,6 @@ import java.sql.Statement;
 import java.util.ArrayList;
 
 import se.niclasolofsson.tddd24.shared.Category;
-import se.niclasolofsson.tddd24.client.NotFoundException;
 import se.niclasolofsson.tddd24.shared.Product;
 
 public class DataManager {
@@ -36,20 +35,23 @@ public class DataManager {
 			s = conn.createStatement();
 			
 			s.executeUpdate("DROP TABLE IF EXISTS categories");
-			s.executeUpdate("CREATE TABLE categories (id INT NOT NULL AUTOINCREMENT, name STRING)");
+			s.executeUpdate("CREATE TABLE categories (id INTEGER PRIMARY KEY, name STRING)");
 			s.executeUpdate("INSERT INTO categories (name) VALUES ('Giraffes')");
 			s.executeUpdate("INSERT INTO categories (name) VALUES ('Aligators')");
 			
 			s.executeUpdate("DROP TABLE IF EXISTS products");
-			s.executeUpdate("CREATE TABLE products (id INT NOT NULL AUTOINCREMENT, name STRING, description TEXT, price FLOAT, stock INT, category INT)");
-
+			s.executeUpdate("CREATE TABLE products (id INTEGER PRIMARY KEY, name STRING, description TEXT, price FLOAT, stock INTEGER, category INTEGER)");
+			s.executeUpdate("INSERT INTO products (name, description, price, stock, category) VALUES ('Big Aligator', 'A massive one!', 1255, 2, 2)");
+			s.executeUpdate("INSERT INTO products (name, description, price, stock, category) VALUES ('Small Aligator', 'For the small home', 620, 4, 2)");
+			
+			
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
 	
-	public ArrayList<Category> getCategories() {
+	public Category[] getCategories() {
 		PreparedStatement s;
 		ArrayList<Category> res = new ArrayList<Category>();
 		
@@ -67,31 +69,28 @@ public class DataManager {
 			e.printStackTrace();
 		}
 		
-		return res;
+		return res.toArray(new Category[res.size()]);
 	}
 	
-	public Product getProduct(String name) throws NotFoundException {
+	public Product[] getProducts(Category category) {
 		PreparedStatement s;
-		Product res = null;
+		ArrayList<Product> res = new ArrayList<Product>();
 		
 		try {
-			s = conn.prepareStatement("SELECT * FROM products WHERE name = ?");
-			s.setString(1, name);
+			s = conn.prepareStatement("SELECT * FROM products WHERE category = ?");
+			s.setInt(1, category.getId());
 			ResultSet rs = s.executeQuery();
 			
-			if(rs.next()) {
-				res = new Product(name, rs.getString("description"), rs.getFloat("price"), rs.getInt("stock"));
-			} else {
-				throw new NotFoundException(name);
+			while(rs.next()) {
+				res.add(new Product(rs.getString("name"), rs.getString("description"), rs.getFloat("price"), rs.getInt("stock")));
 			}
-			
 	        rs.close();
         
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
 		
-		return res;
+		return res.toArray(new Product[res.size()]);
 	}
 	
 	public void close() {

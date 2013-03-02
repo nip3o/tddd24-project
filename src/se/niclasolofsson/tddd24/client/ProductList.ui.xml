@@ -15,10 +15,10 @@
 				    	</b:Column>
 				    </b:Row>
 				</b:Column>
-				<b:Column size="10">
+				<b:Column ui:field="productList" size="10">
 				    <b:Hero>
-				    <b:Heading size="2">Welcome to our awesome webshop!</b:Heading>
-				    <b:Paragraph>Pick a category in the menu to the left</b:Paragraph>
+					    <b:Heading size="2">Welcome to our awesome webshop!</b:Heading>
+					    <b:Paragraph>Pick a category in the menu to the left</b:Paragraph>
 				    </b:Hero>
 				</b:Column>
 			</b:FluidRow>

@@ -1,10 +1,18 @@
 package se.niclasolofsson.tddd24.shared;
 
-public class Product {
+import java.io.Serializable;
+
+public class Product implements Serializable {
+	private static final long serialVersionUID = 1L;
+	
 	String name;
 	String description;
 	float price;
 	int stock;
+	
+	public Product() {
+		
+	}
 	
 	public Product(String name, String description, float price, int stock) {
 		this.name = name;
