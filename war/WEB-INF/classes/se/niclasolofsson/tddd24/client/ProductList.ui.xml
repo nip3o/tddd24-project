@@ -10,7 +10,7 @@
 				   <b:Row>
 				       <b:Column size="1">
 				       </b:Column>
-				   		<b:Column ui:field="categories" size="11">
+				   		<b:Column ui:field="categoryList" size="11">
 				   		    <b:Heading size="4" text="Categories"></b:Heading>
 				    	</b:Column>
 				    </b:Row>
@@ -18,7 +18,7 @@
 				<b:Column size="10">
 				    <b:Hero>
 				    <b:Heading size="2">Welcome to our awesome webshop!</b:Heading>
-				    <b:Paragraph>Pick a category in the menu to the left.</b:Paragraph>
+				    <b:Paragraph>Pick a category in the menu to the left</b:Paragraph>
 				    </b:Hero>
 				</b:Column>
 			</b:FluidRow>
