@@ -1,5 +1,6 @@
 package se.niclasolofsson.tddd24.client;
 
+import se.niclasolofsson.tddd24.shared.Customer;
 import se.niclasolofsson.tddd24.shared.ShoppingCart;
 
 import com.github.gwtbootstrap.client.ui.Button;
@@ -11,6 +12,8 @@ import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
+import com.google.gwt.user.client.Window;
+import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.Widget;
 
@@ -34,6 +37,18 @@ public class CheckoutView extends Composite {
 	private ShoppingCart cart;
 	private ProductsServiceAsync productsService;
 	
+	private void saveOrder(Customer customer) {
+		final AsyncCallback<Void> callback = new AsyncCallback<Void>() {
+		    public void onFailure(Throwable caught) {}
+			@Override
+			public void onSuccess(Void result) {
+				cart.clear();
+				Window.alert("Your order has been saved!");
+			}
+		};
+		productsService.saveOrder(customer, cart.getEntries(), callback);
+	}
+
 	
 	private static CheckoutViewUiBinder uiBinder = GWT
 			.create(CheckoutViewUiBinder.class);
@@ -41,7 +56,7 @@ public class CheckoutView extends Composite {
 	interface CheckoutViewUiBinder extends UiBinder<Widget, CheckoutView> {
 	}
 
-	public CheckoutView(ProductsServiceAsync productsService, ShoppingCart cart, MainController mainController) {
+	public CheckoutView(final ProductsServiceAsync productsService, final ShoppingCart cart, MainController mainController) {
 		this.controller = mainController;
 		this.productsService = productsService;
 		this.cart = cart;
@@ -52,6 +67,14 @@ public class CheckoutView extends Composite {
 			@Override
 			public void onClick(ClickEvent event) {
 				controller.showProductList();
+			}
+		});
+		
+		saveButton.addClickHandler(new ClickHandler() {
+			@Override
+			public void onClick(ClickEvent event) {
+				Customer customer = new Customer(nameField.getValue(), streetField.getValue(), postalField.getValue(), cityField.getValue());
+				saveOrder(customer);
 			}
 		});
 	}

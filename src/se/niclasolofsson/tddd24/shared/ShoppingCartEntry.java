@@ -1,9 +1,14 @@
 package se.niclasolofsson.tddd24.shared;
 
-public class ShoppingCartEntry {
+import java.io.Serializable;
+
+public class ShoppingCartEntry implements Serializable {
+	private static final long serialVersionUID = 1L;
 	private Product product;
 	private int amount;
 
+	ShoppingCartEntry() {}
+	
 	ShoppingCartEntry(Product product, int amount) {
 		this.product = product;
 		this.amount = amount;

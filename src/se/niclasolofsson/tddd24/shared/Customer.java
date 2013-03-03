@@ -11,6 +11,13 @@ public class Customer implements Serializable {
 	
 	Customer() {}
 	
+	public Customer(String name, String street, String postalCode, String city) {
+		this.name = name;
+		this.street = street;
+		this.postalCode = postalCode;
+		this.city = city;
+	}
+	
 	public String getName() {
 		return name;
 	}

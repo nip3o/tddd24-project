@@ -50,4 +50,12 @@ public class ShoppingCart {
 		}
 		return res;
 	}
+	
+	public ShoppingCartEntry[] getEntries() {
+		return entries.values().toArray(new ShoppingCartEntry[entries.size()]);
+	}
+
+	public void clear() {
+		entries.clear();
+	}
 }

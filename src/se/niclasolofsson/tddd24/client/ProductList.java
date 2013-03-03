@@ -41,18 +41,7 @@ public class ProductList extends Composite {
 	
 	private void addToCart(Product p, Category c) {
 		cart.addProduct(p, 1);
-		shoppingCartList.clear();
-		shoppingCartList.add(cart.asWidget());
-		
-		Button checkout = new Button("Checkout");
-		checkout.setType(ButtonType.PRIMARY);
-		checkout.addClickHandler(new ClickHandler() {
-			@Override
-			public void onClick(ClickEvent event) {
-				controller.showCheckout();
-			}
-		});
-		shoppingCartList.add(checkout);
+		updateCart();
 		
 //		productsService.updateStock(p, callback);
 		listProducts(c);
@@ -126,5 +115,20 @@ public class ProductList extends Composite {
 		};
 		
 		productsService.init(initCallback);
+	}
+
+	public void updateCart() {
+		shoppingCartList.clear();
+		shoppingCartList.add(cart.asWidget());
+		
+		Button checkout = new Button("Checkout");
+		checkout.setType(ButtonType.PRIMARY);
+		checkout.addClickHandler(new ClickHandler() {
+			@Override
+			public void onClick(ClickEvent event) {
+				controller.showCheckout();
+			}
+		});
+		shoppingCartList.add(checkout);
 	}
 }

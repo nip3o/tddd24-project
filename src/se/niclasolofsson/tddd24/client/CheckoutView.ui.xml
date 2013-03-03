@@ -9,7 +9,7 @@
 			    <b:Heading size="2" text="Webshop checkout"></b:Heading>
 			    <g:Label>Please enter your delivery information</g:Label>
 			    
-			   	<b:Heading size="4" text="Shopping cart"></b:Heading>
+			   	<b:Heading size="4" text="You have ordered"></b:Heading>
 			    <b:FluidRow>
 			   		<b:Column ui:field="shoppingCartList" size="11">
 			    	</b:Column>
@@ -51,7 +51,6 @@
 			    </b:Form>
 
 			</b:FluidRow>
-			
 		</b:FluidContainer>
 	</g:HTMLPanel>
 </ui:UiBinder>

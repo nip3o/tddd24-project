@@ -10,8 +10,8 @@ import java.util.ArrayList;
 
 import se.niclasolofsson.tddd24.shared.Category;
 import se.niclasolofsson.tddd24.shared.Customer;
-import se.niclasolofsson.tddd24.shared.OrderEntry;
 import se.niclasolofsson.tddd24.shared.Product;
+import se.niclasolofsson.tddd24.shared.ShoppingCartEntry;
 
 public class DataManager {
 	private Connection conn;
@@ -142,26 +142,26 @@ public class DataManager {
 		}
 	}
 
-	public void saveOrder(Customer customer, OrderEntry[] entries) {
+	public void saveOrder(Customer customer, ShoppingCartEntry[] entries) {
 		PreparedStatement s;
 		
 		try {
 			s = conn.prepareStatement("INSERT INTO customers (name, street, postalCode, city) VALUES (?, ?, ?, ?)", 
 									  PreparedStatement.RETURN_GENERATED_KEYS);
-			s.setString(0, customer.getName());
-			s.setString(1, customer.getStreet());
-			s.setString(2, customer.getPostalCode());
-			s.setString(3, customer.getCity());
+			s.setString(1, customer.getName());
+			s.setString(2, customer.getStreet());
+			s.setString(3, customer.getPostalCode());
+			s.setString(4, customer.getCity());
 			
 			ResultSet keys = s.getGeneratedKeys();
 			int customerId = keys.getInt(1);
 			
 			s = conn.prepareStatement("INSERT INTO orderEntries (customer, amount, product) VALUES (?, ?, ?)");
-			s.setInt(0, customerId);
+			s.setInt(1, customerId);
 			
-			for (OrderEntry entry : entries) {
-				s.setInt(1, entry.getAmount());
-				s.setInt(2, entry.getProductId());
+			for (ShoppingCartEntry entry : entries) {
+				s.setInt(2, entry.getAmount());
+				s.setInt(3, entry.getProduct().getId());
 				s.executeUpdate();
 			}
 			

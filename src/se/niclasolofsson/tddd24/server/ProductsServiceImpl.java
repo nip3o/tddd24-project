@@ -2,8 +2,8 @@ package se.niclasolofsson.tddd24.server;
 
 import se.niclasolofsson.tddd24.shared.Category;
 import se.niclasolofsson.tddd24.shared.Customer;
-import se.niclasolofsson.tddd24.shared.OrderEntry;
 import se.niclasolofsson.tddd24.shared.Product;
+import se.niclasolofsson.tddd24.shared.ShoppingCartEntry;
 import se.niclasolofsson.tddd24.client.ProductsService;
 
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
@@ -17,7 +17,7 @@ public class ProductsServiceImpl extends RemoteServiceServlet implements Product
 	public void init() {
 		dm = new DataManager();
 		dm.connect();
-//		dm.create();
+		dm.create();
 		dm.close();
 	}
 
@@ -52,10 +52,11 @@ public class ProductsServiceImpl extends RemoteServiceServlet implements Product
 	}
 
 	@Override
-	public void saveOrder(Customer customer, OrderEntry[] entries) {
+	public void saveOrder(Customer customer, ShoppingCartEntry[] entries) {
 		dm.connect();
 		dm.saveOrder(customer, entries);
 		dm.close();
 	}
+
 
 }
