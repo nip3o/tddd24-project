@@ -9,6 +9,8 @@ import java.sql.Statement;
 import java.util.ArrayList;
 
 import se.niclasolofsson.tddd24.shared.Category;
+import se.niclasolofsson.tddd24.shared.Customer;
+import se.niclasolofsson.tddd24.shared.OrderEntry;
 import se.niclasolofsson.tddd24.shared.Product;
 
 public class DataManager {
@@ -43,7 +45,12 @@ public class DataManager {
 			s.executeUpdate("CREATE TABLE products (id INTEGER PRIMARY KEY, name STRING, description TEXT, price FLOAT, stock INTEGER, category INTEGER)");
 			s.executeUpdate("INSERT INTO products (name, description, price, stock, category) VALUES ('Big Aligator', 'A massive one!', 1255, 2, 2)");
 			s.executeUpdate("INSERT INTO products (name, description, price, stock, category) VALUES ('Small Aligator', 'For the small home', 620, 4, 2)");
+
+			s.executeUpdate("DROP TABLE IF EXISTS customers");
+			s.executeUpdate("CREATE TABLE customers (id INTEGER PRIMARY KEY, name STRING, street STRING, postalCode STRING, city STRING)");
 			
+			s.executeUpdate("DROP TABLE IF EXISTS orderEntries");
+			s.executeUpdate("CREATE TABLE orderEntries (id INTEGER PRIMARY KEY, customer INTEGER, amount INTEGER, product INTEGER)");
 			
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
@@ -131,6 +138,35 @@ public class DataManager {
 			s.executeUpdate();
 			
 		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
+
+	public void saveOrder(Customer customer, OrderEntry[] entries) {
+		PreparedStatement s;
+		
+		try {
+			s = conn.prepareStatement("INSERT INTO customers (name, street, postalCode, city) VALUES (?, ?, ?, ?)", 
+									  PreparedStatement.RETURN_GENERATED_KEYS);
+			s.setString(0, customer.getName());
+			s.setString(1, customer.getStreet());
+			s.setString(2, customer.getPostalCode());
+			s.setString(3, customer.getCity());
+			
+			ResultSet keys = s.getGeneratedKeys();
+			int customerId = keys.getInt(1);
+			
+			s = conn.prepareStatement("INSERT INTO orderEntries (customer, amount, product) VALUES (?, ?, ?)");
+			s.setInt(0, customerId);
+			
+			for (OrderEntry entry : entries) {
+				s.setInt(1, entry.getAmount());
+				s.setInt(2, entry.getProductId());
+				s.executeUpdate();
+			}
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}

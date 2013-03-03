@@ -1,6 +1,8 @@
 package se.niclasolofsson.tddd24.server;
 
 import se.niclasolofsson.tddd24.shared.Category;
+import se.niclasolofsson.tddd24.shared.Customer;
+import se.niclasolofsson.tddd24.shared.OrderEntry;
 import se.niclasolofsson.tddd24.shared.Product;
 import se.niclasolofsson.tddd24.client.ProductsService;
 
@@ -46,6 +48,13 @@ public class ProductsServiceImpl extends RemoteServiceServlet implements Product
 	public void updateStock(Product p) {
 		dm.connect();
 		dm.updateStock(p);
+		dm.close();
+	}
+
+	@Override
+	public void saveOrder(Customer customer, OrderEntry[] entries) {
+		dm.connect();
+		dm.saveOrder(customer, entries);
 		dm.close();
 	}
 

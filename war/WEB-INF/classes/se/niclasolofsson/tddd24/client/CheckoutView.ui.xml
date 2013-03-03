@@ -21,17 +21,31 @@
 			        <b:ControlGroup>
 			            <b:ControlLabel for="name">Name</b:ControlLabel>
 		                <b:Controls>
-		                    <b:TextBox alternateSize="XLARGE" b:id="name"></b:TextBox>
+		                    <b:TextBox b:id="name" ui:field="nameField"></b:TextBox>
 		                </b:Controls>
 					</b:ControlGroup>
 					
 			        <b:ControlGroup>
 			            <b:ControlLabel for="street">Street</b:ControlLabel>
 		                <b:Controls>
-		                    <b:TextBox alternateSize="XLARGE" b:id="street"></b:TextBox>
+		                    <b:TextBox b:id="street" ui:field="streetField"></b:TextBox>
 		                </b:Controls>
 					</b:ControlGroup>
-					
+
+			        <b:ControlGroup>
+			            <b:ControlLabel for="postal">Postal code</b:ControlLabel>
+		                <b:Controls>
+		                    <b:TextBox b:id="postal" ui:field="postalField"></b:TextBox>
+		                </b:Controls>
+					</b:ControlGroup>
+			        
+			        <b:ControlGroup>
+			            <b:ControlLabel for="city">City</b:ControlLabel>
+		                <b:Controls>
+		                    <b:TextBox b:id="city" ui:field="cityField"></b:TextBox>
+		                </b:Controls>
+					</b:ControlGroup>
+			        					
 			        <b:Button ui:field="backButton">Back</b:Button>
 					<b:Button ui:field="saveButton" type="PRIMARY">Save</b:Button>
 			    </b:Form>

@@ -5,6 +5,7 @@ import se.niclasolofsson.tddd24.shared.ShoppingCart;
 import com.github.gwtbootstrap.client.ui.Button;
 import com.github.gwtbootstrap.client.ui.Column;
 import com.github.gwtbootstrap.client.ui.FluidRow;
+import com.github.gwtbootstrap.client.ui.TextBox;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
@@ -20,6 +21,14 @@ public class CheckoutView extends Composite {
 	Button backButton;
 	@UiField
 	Button saveButton;
+	@UiField
+	TextBox nameField;
+	@UiField
+	TextBox streetField;
+	@UiField
+	TextBox postalField;
+	@UiField
+	TextBox cityField;
 	
 	private MainController controller;
 	private ShoppingCart cart;
