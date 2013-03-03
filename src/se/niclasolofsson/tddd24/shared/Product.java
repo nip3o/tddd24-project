@@ -11,14 +11,13 @@ import com.google.gwt.user.client.ui.Label;
 public class Product implements Serializable {
 	private static final long serialVersionUID = 1L;
 	
+	Product() {}
+	
+	int id;
 	String name;
 	String description;
 	float price;
 	int stock;
-	
-	public Product() {
-		
-	}
 	
 	public IsWidget asWidget() {
 		LabelType type = LabelType.SUCCESS;
@@ -48,7 +47,8 @@ public class Product implements Serializable {
 		return r;
 	}
 	
-	public Product(String name, String description, float price, int stock) {
+	public Product(int id, String name, String description, float price, int stock) {
+		this.id = id;
 		this.name = name;
 		this.description = description;
 		this.price = price;
@@ -73,5 +73,9 @@ public class Product implements Serializable {
 	
 	float getPrice() {
 		return this.price;
+	}
+
+	public int getId() {
+		return id;
 	}
 }

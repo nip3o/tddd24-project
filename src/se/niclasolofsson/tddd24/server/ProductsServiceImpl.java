@@ -35,4 +35,18 @@ public class ProductsServiceImpl extends RemoteServiceServlet implements Product
 		return res;
 	}
 
+	@Override
+	public void saveProduct(Product p) {
+		dm.connect();
+		dm.saveProduct(p);
+		dm.close();
+	}
+
+	@Override
+	public void updateStock(Product p) {
+		dm.connect();
+		dm.updateStock(p);
+		dm.close();
+	}
+
 }

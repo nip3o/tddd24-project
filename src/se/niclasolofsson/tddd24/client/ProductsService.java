@@ -11,4 +11,6 @@ public interface ProductsService extends RemoteService {
 	void init();
 	Category[] getCategories();
 	Product[] getProducts(Category c);
+	void updateStock(Product p);
+	void saveProduct(Product p);
 }

@@ -37,6 +37,21 @@ public class ProductList extends Composite {
 
 	interface ProductListUiBinder extends UiBinder<Widget, ProductList> {
 	}
+	
+	private void addToCart(Product p, Category c, Product[] products) {
+		final AsyncCallback<Void> callback = new AsyncCallback<Void>() {
+			public void onFailure(Throwable caught) {}
+			@Override
+			public void onSuccess(Void result) {}
+		};
+		
+		cart.addProduct(p, 1);
+		shoppingCartList.clear();
+		shoppingCartList.add(cart.asWidget());
+		
+//		productsService.updateStock(p, callback);
+		listProducts(c, products);
+	}
 
 	private void listProducts(final Category c, final Product[] products) {
 		FluidRow r = new FluidRow();
@@ -52,10 +67,7 @@ public class ProductList extends Composite {
 				addButton.addClickHandler(new ClickHandler() {
 					@Override
 					public void onClick(ClickEvent event) {
-						cart.addProduct(p, 1);
-						shoppingCartList.clear();
-						shoppingCartList.add(cart.asWidget());
-						listProducts(c, products);
+						addToCart(p, c, products);
 					}
 				});
 				r.add(addButton);	

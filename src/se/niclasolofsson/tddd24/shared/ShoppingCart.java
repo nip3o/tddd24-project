@@ -5,17 +5,29 @@ import java.util.HashMap;
 import com.github.gwtbootstrap.client.ui.FluidRow;
 import com.google.gwt.user.client.ui.IsWidget;
 import com.google.gwt.user.client.ui.Label;
+import com.google.gwt.user.client.Cookies;
 
 public class ShoppingCart {
-	HashMap<Product, ShoppingCartEntry> entries = new HashMap<Product, ShoppingCartEntry>();
+	HashMap<Integer, ShoppingCartEntry> entries = new HashMap<Integer, ShoppingCartEntry>();
+	
+	public void createFromCookie() {
+		String cookie = Cookies.getCookie("cart");
+		
+		if(cookie != null) {
+			String[] ids = cookie.split(" ");
+		} else {
+			Cookies.setCookie("cart", "");
+		}
+	}
 	
 	public void addProduct(Product product, int amount) {
-		if(! entries.containsKey(product)) {
-			entries.put(product, new ShoppingCartEntry(product, amount));
+		if(! entries.containsKey(product.getId())) {
+			entries.put(product.getId(), new ShoppingCartEntry(product, amount));
 		} else {
-			entries.get(product).increaseAmount();
+			entries.get(product.getId()).increaseAmount();
 		}
 		product.reduceStock();
+		Cookies.setCookie("cart", Cookies.getCookie("cart") + product.getId() + " ");
 	}
 	
 	public IsWidget asWidget() {

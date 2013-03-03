@@ -82,7 +82,7 @@ public class DataManager {
 			ResultSet rs = s.executeQuery();
 			
 			while(rs.next()) {
-				res.add(new Product(rs.getString("name"), rs.getString("description"), rs.getFloat("price"), rs.getInt("stock")));
+				res.add(new Product(rs.getInt("id"), rs.getString("name"), rs.getString("description"), rs.getFloat("price"), rs.getInt("stock")));
 			}
 	        rs.close();
         
@@ -99,6 +99,24 @@ public class DataManager {
 			
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+
+	public void saveProduct(Product p) {
+		// TODO Auto-generated method stub
+	}
+
+	public void updateStock(Product p) {
+		PreparedStatement s;
+		
+		try {
+			s = conn.prepareStatement("UPDATE Products SET stock = ? WHERE id = ?");
+			s.setInt(1, p.getStock());
+			s.setInt(2, p.getId());
+			s.executeUpdate();
+			
+		} catch (SQLException e) {
 			e.printStackTrace();
 		}
 	}
