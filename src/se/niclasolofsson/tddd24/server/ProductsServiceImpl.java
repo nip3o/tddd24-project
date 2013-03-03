@@ -15,7 +15,7 @@ public class ProductsServiceImpl extends RemoteServiceServlet implements Product
 	public void init() {
 		dm = new DataManager();
 		dm.connect();
-		dm.create();
+//		dm.create();
 		dm.close();
 	}
 

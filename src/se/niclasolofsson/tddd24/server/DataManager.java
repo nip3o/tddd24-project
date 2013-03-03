@@ -52,18 +52,32 @@ public class DataManager {
 	}
 	
 	public Category[] getCategories() {
-		PreparedStatement s;
+		PreparedStatement cs, ps;
+		Category category;
 		ArrayList<Category> res = new ArrayList<Category>();
 		
 		try {
-			s = conn.prepareStatement("SELECT * FROM categories");
-			ResultSet rs = s.executeQuery();
+			cs = conn.prepareStatement("SELECT * FROM categories");
+			ResultSet crs = cs.executeQuery();
 			
-			while (rs.next()) {
-				res.add(new Category(rs.getString("name"), rs.getInt("id")));
+			while (crs.next()) {
+				category = new Category(crs.getString("name"), crs.getInt("id"));
+				
+				ArrayList<Product> products = new ArrayList<Product>();
+				ps = conn.prepareStatement("SELECT * FROM products WHERE category = ?");
+				ps.setInt(1, category.getId());
+				ResultSet prs = ps.executeQuery();
+				
+				while(prs.next()) {
+					products.add(new Product(prs.getInt("id"), prs.getString("name"), prs.getString("description"), prs.getFloat("price"), prs.getInt("stock")));
+				}
+				
+				category.addProducts(products.toArray(new Product[products.size()]));
+				res.add(category);
+				prs.close();
 			}
 			
-	        rs.close();
+	        crs.close();
         
 		} catch (SQLException e) {
 			e.printStackTrace();

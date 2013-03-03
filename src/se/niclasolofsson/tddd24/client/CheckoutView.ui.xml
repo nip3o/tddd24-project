@@ -1,0 +1,43 @@
+<!DOCTYPE ui:UiBinder SYSTEM "http://dl.google.com/gwt/DTD/xhtml.ent">
+<ui:UiBinder xmlns:ui="urn:ui:com.google.gwt.uibinder"
+	xmlns:g="urn:import:com.google.gwt.user.client.ui"
+	xmlns:b="urn:import:com.github.gwtbootstrap.client.ui">
+	
+	<g:HTMLPanel>
+	    <b:FluidContainer>
+			<b:FluidRow>
+			    <b:Heading size="2" text="Webshop checkout"></b:Heading>
+			    <g:Label>Please enter your delivery information</g:Label>
+			    
+			   	<b:Heading size="4" text="Shopping cart"></b:Heading>
+			    <b:FluidRow>
+			   		<b:Column ui:field="shoppingCartList" size="11">
+			    	</b:Column>
+			    </b:FluidRow>
+
+			    <b:Heading size="4" text="Customer details"></b:Heading>
+			    
+			    <b:Form type="HORIZONTAL">
+			        <b:ControlGroup>
+			            <b:ControlLabel for="name">Name</b:ControlLabel>
+		                <b:Controls>
+		                    <b:TextBox alternateSize="XLARGE" b:id="name"></b:TextBox>
+		                </b:Controls>
+					</b:ControlGroup>
+					
+			        <b:ControlGroup>
+			            <b:ControlLabel for="street">Street</b:ControlLabel>
+		                <b:Controls>
+		                    <b:TextBox alternateSize="XLARGE" b:id="street"></b:TextBox>
+		                </b:Controls>
+					</b:ControlGroup>
+					
+			        <b:Button ui:field="backButton">Back</b:Button>
+					<b:Button ui:field="saveButton" type="PRIMARY">Save</b:Button>
+			    </b:Form>
+
+			</b:FluidRow>
+			
+		</b:FluidContainer>
+	</g:HTMLPanel>
+</ui:UiBinder>

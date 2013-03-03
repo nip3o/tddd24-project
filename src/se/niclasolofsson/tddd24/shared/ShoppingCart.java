@@ -14,7 +14,11 @@ public class ShoppingCart {
 		String cookie = Cookies.getCookie("cart");
 		
 		if(cookie != null) {
-			String[] ids = cookie.split(" ");
+			String[] entriesStr = cookie.split(" ");
+			
+			for (String entryStr : entriesStr) {
+				String[] temp = entryStr.split(",");
+			}
 		} else {
 			Cookies.setCookie("cart", "");
 		}
@@ -27,7 +31,7 @@ public class ShoppingCart {
 			entries.get(product.getId()).increaseAmount();
 		}
 		product.reduceStock();
-		Cookies.setCookie("cart", Cookies.getCookie("cart") + product.getId() + " ");
+		Cookies.setCookie("cart", Cookies.getCookie("cart") + amount + "," + product.getId() + " ");
 	}
 	
 	public IsWidget asWidget() {
@@ -36,5 +40,14 @@ public class ShoppingCart {
 			r.add(new Label(entry.getProduct().getName() + " - " + entry.getAmount() + " st"));
 		}
 		return r;
+	}
+	
+	public double getTotalPrice() {
+		double res = 0;
+		
+		for(ShoppingCartEntry entry : entries.values()) {
+			res += entry.getPrice();
+		}
+		return res;
 	}
 }

@@ -20,4 +20,8 @@ public class ShoppingCartEntry {
 	public void increaseAmount() {
 		amount++;
 	}
+
+	public double getPrice() {
+		return amount * product.getPrice();
+	}
 }

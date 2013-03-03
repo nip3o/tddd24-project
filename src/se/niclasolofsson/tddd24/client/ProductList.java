@@ -9,6 +9,7 @@ import com.github.gwtbootstrap.client.ui.Column;
 import com.github.gwtbootstrap.client.ui.FluidRow;
 import com.github.gwtbootstrap.client.ui.Heading;
 import com.github.gwtbootstrap.client.ui.base.IconAnchor;
+import com.github.gwtbootstrap.client.ui.constants.ButtonType;
 import com.github.gwtbootstrap.client.ui.constants.IconType;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -28,9 +29,9 @@ public class ProductList extends Composite {
 	@UiField
 	Column shoppingCartList;
 	
+	private MainController controller;
 	private ShoppingCart cart;
-	
-	ProductsServiceAsync productsService;
+	private ProductsServiceAsync productsService;
 	
 	private static ProductListUiBinder uiBinder = GWT
 			.create(ProductListUiBinder.class);
@@ -38,58 +39,51 @@ public class ProductList extends Composite {
 	interface ProductListUiBinder extends UiBinder<Widget, ProductList> {
 	}
 	
-	private void addToCart(Product p, Category c, Product[] products) {
-		final AsyncCallback<Void> callback = new AsyncCallback<Void>() {
-			public void onFailure(Throwable caught) {}
-			@Override
-			public void onSuccess(Void result) {}
-		};
-		
+	private void addToCart(Product p, Category c) {
 		cart.addProduct(p, 1);
 		shoppingCartList.clear();
 		shoppingCartList.add(cart.asWidget());
 		
+		Button checkout = new Button("Checkout");
+		checkout.setType(ButtonType.PRIMARY);
+		checkout.addClickHandler(new ClickHandler() {
+			@Override
+			public void onClick(ClickEvent event) {
+				controller.showCheckout();
+			}
+		});
+		shoppingCartList.add(checkout);
+		
 //		productsService.updateStock(p, callback);
-		listProducts(c, products);
+		listProducts(c);
 	}
 
-	private void listProducts(final Category c, final Product[] products) {
+	private void listProducts(final Category c) {
 		FluidRow r = new FluidRow();
 		productList.clear();
 		
 		Heading category = new Heading(2, c.getName());
 		r.add(category);
 	
-		for(final Product p : products) {
+		for(final Product p : c.getProducts()) {
 			r.add(p.asWidget());
 			if(p.getStock() > 0) {
 				Button addButton = new Button("Add to cart", IconType.PLUS);
 				addButton.addClickHandler(new ClickHandler() {
 					@Override
 					public void onClick(ClickEvent event) {
-						addToCart(p, c, products);
+						addToCart(p, c);
 					}
 				});
 				r.add(addButton);	
 			}
 		}
 		
-		if(products.length == 0) {
+		if(c.getProducts().length == 0) {
 			r.add(new Label("This category is empty!"));
 		} 
 		
 		productList.add(r);
-	}
-	
-	private void listProducts(final Category c) {
-		final AsyncCallback<Product[]> productsCallback = new AsyncCallback<Product[]>() {
-		      public void onFailure(Throwable caught) {}
-		      public void onSuccess(Product[] result) {
-		    	  listProducts(c, result);
-		      }
-		};
-		
-		productsService.getProducts(c, productsCallback);
 	}
 	
 	private void addCategories(Category[] categories) {
@@ -110,7 +104,8 @@ public class ProductList extends Composite {
 		}
 	}
 
-	public ProductList(final ProductsServiceAsync productsService, ShoppingCart cart) {
+	public ProductList(final ProductsServiceAsync productsService, ShoppingCart cart, MainController controller) {
+		this.controller = controller;
 		this.productsService = productsService;
 		this.cart = cart;
 		

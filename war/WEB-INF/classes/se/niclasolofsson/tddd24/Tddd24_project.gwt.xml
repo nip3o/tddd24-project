@@ -23,7 +23,7 @@
   <!-- Other module inherits                                      -->
 
   <!-- Specify the app entry point class.                         -->
-  <entry-point class='se.niclasolofsson.tddd24.client.Main'/>
+  <entry-point class='se.niclasolofsson.tddd24.client.MainController'/>
 
   <!-- Specify the paths for translatable code                    -->
   <source path='client'/>
