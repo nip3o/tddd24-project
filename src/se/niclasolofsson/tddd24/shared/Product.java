@@ -14,6 +14,7 @@ public class Product implements Serializable {
 	Product() {}
 	
 	int id;
+	int categoryId;
 	String name;
 	String description;
 	float price;
@@ -55,6 +56,15 @@ public class Product implements Serializable {
 		this.stock = stock;
 	}
 	
+	public Product(String name, String description, float price, int stock,
+			int categoryId) {
+		this.name = name;
+		this.description = description;
+		this.price = price;
+		this.stock = stock;
+		this.categoryId = categoryId;
+	}
+
 	public String getName() {
 		return name;
 	}
@@ -71,10 +81,14 @@ public class Product implements Serializable {
 		this.stock--;
 	}
 	
-	float getPrice() {
+	public float getPrice() {
 		return this.price;
 	}
 
+	public int getCategoryId() {
+		return this.categoryId;
+	}
+	
 	public int getId() {
 		return id;
 	}

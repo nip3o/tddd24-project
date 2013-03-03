@@ -1,0 +1,71 @@
+<!DOCTYPE ui:UiBinder SYSTEM "http://dl.google.com/gwt/DTD/xhtml.ent">
+<ui:UiBinder xmlns:ui="urn:ui:com.google.gwt.uibinder"
+	xmlns:g="urn:import:com.google.gwt.user.client.ui"
+	xmlns:b="urn:import:com.github.gwtbootstrap.client.ui">
+	
+	<g:HTMLPanel>
+	    <b:FluidContainer>
+			<b:FluidRow>
+				<b:Column size="12">
+				   <b:Heading size="4" text="Orders"></b:Heading>
+				   <b:FluidRow>
+				   		<b:Column ui:field="orderList" size="11">
+				    	</b:Column>
+				    </b:FluidRow>
+				    
+				   <b:Heading size="4" text="Add category"></b:Heading>
+				   <b:FluidRow>
+				       <b:TextBox ui:field="categoryName"></b:TextBox>
+				    </b:FluidRow>
+				    <b:FluidRow>
+				    	<b:Button ui:field="addCategory">Save category</b:Button>
+				     </b:FluidRow>
+				     
+				   	<b:Heading size="4" text="Add product"></b:Heading>
+				    <b:FluidRow>
+				        <b:ControlGroup>
+				            <b:ControlLabel for="productName">Name</b:ControlLabel>
+			                <b:Controls>
+			                    <b:TextBox b:id="productName" ui:field="productName"></b:TextBox>
+			                </b:Controls>
+						</b:ControlGroup>
+						
+				        <b:ControlGroup>
+				            <b:ControlLabel for="productDescription">Description</b:ControlLabel>
+			                <b:Controls>
+			                    <b:TextArea b:id="productDescription" ui:field="productDescription"></b:TextArea>
+			                </b:Controls>
+						</b:ControlGroup>
+						
+				        <b:ControlGroup>
+				            <b:ControlLabel for="productPrice">Price</b:ControlLabel>
+			                <b:Controls>
+			                    <b:TextBox b:id="productPrice" ui:field="productPrice"></b:TextBox>
+			                </b:Controls>
+						</b:ControlGroup>
+						
+				        <b:ControlGroup>
+				            <b:ControlLabel for="productStock">Initial stock</b:ControlLabel>
+			                <b:Controls>
+			                    <b:TextBox b:id="productStock" ui:field="productStock"></b:TextBox>
+			                </b:Controls>
+						</b:ControlGroup>
+				        
+				        <b:ControlGroup>
+				            <b:ControlLabel for="productCategory">Category</b:ControlLabel>
+			                <b:Controls>
+			                    <b:ListBox b:id="productCategory" ui:field="productCategory">
+
+			                    </b:ListBox>
+			                </b:Controls>
+						</b:ControlGroup>
+				    </b:FluidRow>
+				    <b:FluidRow>
+				    	<b:Button ui:field="addProduct">Save product</b:Button>
+				     </b:FluidRow>
+				    
+				</b:Column>
+			</b:FluidRow>
+		</b:FluidContainer>
+	</g:HTMLPanel>
+</ui:UiBinder> 

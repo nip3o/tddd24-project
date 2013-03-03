@@ -28,6 +28,8 @@ public class ProductList extends Composite {
 	Column productList;
 	@UiField
 	Column shoppingCartList;
+	@UiField
+	Button adminButton;
 	
 	private MainController controller;
 	private ShoppingCart cart;
@@ -37,6 +39,36 @@ public class ProductList extends Composite {
 			.create(ProductListUiBinder.class);
 
 	interface ProductListUiBinder extends UiBinder<Widget, ProductList> {
+	}
+	
+	public ProductList(final ProductsServiceAsync productsService, ShoppingCart cart, final MainController controller) {
+		this.controller = controller;
+		this.productsService = productsService;
+		this.cart = cart;
+		
+		initWidget(uiBinder.createAndBindUi(this));
+		
+		final AsyncCallback<Category[]> categoriesCallback = new AsyncCallback<Category[]>() {
+		      public void onFailure(Throwable caught) {}
+		      public void onSuccess(Category[] result) {
+		    	  addCategories(result);
+		      }
+		};
+		
+		final AsyncCallback<Void> initCallback = new AsyncCallback<Void>() {
+		      public void onFailure(Throwable caught) {}
+		      public void onSuccess(Void result) {
+		    	  adminButton.addClickHandler(new ClickHandler() {
+					@Override
+					public void onClick(ClickEvent event) {
+						controller.showAdmin();
+					}
+				});
+		    	  productsService.getCategories(categoriesCallback);
+		      }
+		};
+		
+		productsService.init(initCallback);
 	}
 	
 	private void addToCart(Product p, Category c) {
@@ -91,30 +123,6 @@ public class ProductList extends Composite {
 			r.add(a);
 			categoryList.add(r);
 		}
-	}
-
-	public ProductList(final ProductsServiceAsync productsService, ShoppingCart cart, MainController controller) {
-		this.controller = controller;
-		this.productsService = productsService;
-		this.cart = cart;
-		
-		initWidget(uiBinder.createAndBindUi(this));
-		
-		final AsyncCallback<Category[]> categoriesCallback = new AsyncCallback<Category[]>() {
-		      public void onFailure(Throwable caught) {}
-		      public void onSuccess(Category[] result) {
-		    	  addCategories(result);
-		      }
-		};
-		
-		final AsyncCallback<Void> initCallback = new AsyncCallback<Void>() {
-		      public void onFailure(Throwable caught) {}
-		      public void onSuccess(Void result) {
-		    	  productsService.getCategories(categoriesCallback);
-		      }
-		};
-		
-		productsService.init(initCallback);
 	}
 
 	public void updateCart() {

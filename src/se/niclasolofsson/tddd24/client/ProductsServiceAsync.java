@@ -10,10 +10,11 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
 public interface ProductsServiceAsync {
 	void init(AsyncCallback<Void> callback);
 	void getCategories(AsyncCallback<Category[]> categoriesCallback);
-	void getProducts(Category c, AsyncCallback<Product[]> callback);
+	void getProducts(AsyncCallback<Product[]> callback);
 	
 	void updateStock(Product p, AsyncCallback<Void> callback);
 	void saveProduct(Product p, AsyncCallback<Void> callback);
 	
 	void saveOrder(Customer customer, ShoppingCartEntry[] entries, AsyncCallback<Void> callback);
+	void saveCategory(Category c, AsyncCallback<Category> callback);
 }

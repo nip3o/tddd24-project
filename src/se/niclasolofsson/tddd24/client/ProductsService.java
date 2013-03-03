@@ -12,9 +12,10 @@ import com.google.gwt.user.client.rpc.RemoteServiceRelativePath;
 public interface ProductsService extends RemoteService {
 	void init();
 	Category[] getCategories();
-	Product[] getProducts(Category c);
+	Product[] getProducts();
 	void updateStock(Product p);
 	void saveProduct(Product p);
+	Category saveCategory(Category c);
 	
 	void saveOrder(Customer customer, ShoppingCartEntry[] entries);
 }

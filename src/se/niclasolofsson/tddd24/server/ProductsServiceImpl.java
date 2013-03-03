@@ -17,7 +17,7 @@ public class ProductsServiceImpl extends RemoteServiceServlet implements Product
 	public void init() {
 		dm = new DataManager();
 		dm.connect();
-		dm.create();
+//		dm.create();
 		dm.close();
 	}
 
@@ -30,9 +30,9 @@ public class ProductsServiceImpl extends RemoteServiceServlet implements Product
 	}
 
 	@Override
-	public Product[] getProducts(Category c) {
+	public Product[] getProducts() {
 		dm.connect();
-		Product[] res = dm.getProducts(c);
+		Product[] res = dm.getProducts();
 		dm.close();
 		return res;
 	}
@@ -56,6 +56,14 @@ public class ProductsServiceImpl extends RemoteServiceServlet implements Product
 		dm.connect();
 		dm.saveOrder(customer, entries);
 		dm.close();
+	}
+
+	@Override
+	public Category saveCategory(Category c) {
+		dm.connect();
+		Category res = dm.saveCategory(c);
+		dm.close();
+		return res;
 	}
 
 

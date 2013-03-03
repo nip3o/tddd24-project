@@ -93,13 +93,12 @@ public class DataManager {
 		return res.toArray(new Category[res.size()]);
 	}
 	
-	public Product[] getProducts(Category category) {
+	public Product[] getProducts() {
 		PreparedStatement s;
 		ArrayList<Product> res = new ArrayList<Product>();
 		
 		try {
-			s = conn.prepareStatement("SELECT * FROM products WHERE category = ?");
-			s.setInt(1, category.getId());
+			s = conn.prepareStatement("SELECT * FROM products");
 			ResultSet rs = s.executeQuery();
 			
 			while(rs.next()) {
@@ -125,7 +124,20 @@ public class DataManager {
 	}
 
 	public void saveProduct(Product p) {
-		// TODO Auto-generated method stub
+		PreparedStatement s;
+		
+		try {
+			s = conn.prepareStatement("INSERT INTO products (name, description, price, stock, category) VALUES (?, ?, ?, ?, ?)");
+			s.setString(1, p.getName());
+			s.setString(2, p.getDescription());
+			s.setFloat(3, p.getPrice());
+			s.setInt(4, p.getStock());
+			s.setInt(5, p.getCategoryId());
+			s.executeUpdate();
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
 	}
 
 	public void updateStock(Product p) {
@@ -152,6 +164,7 @@ public class DataManager {
 			s.setString(2, customer.getStreet());
 			s.setString(3, customer.getPostalCode());
 			s.setString(4, customer.getCity());
+			s.executeUpdate();
 			
 			ResultSet keys = s.getGeneratedKeys();
 			int customerId = keys.getInt(1);
@@ -169,6 +182,25 @@ public class DataManager {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+	}
+
+	public Category saveCategory(Category c) {
+		PreparedStatement s;
+		Category res = null;
+		
+		try {
+			s = conn.prepareStatement("INSERT INTO categories (name) VALUES (?)",
+									  PreparedStatement.RETURN_GENERATED_KEYS);
+			s.setString(1, c.getName());
+			s.executeUpdate();
+			
+			ResultSet keys = s.getGeneratedKeys();
+			res = new Category(c.getName(), keys.getInt(1));
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return res;
 	}
 
 }

@@ -18,6 +18,11 @@
 				   		<b:Column ui:field="shoppingCartList" size="11">
 				    	</b:Column>
 				    </b:FluidRow>
+				    
+				    <b:Heading size="4" text="Admin"></b:Heading>
+				    <b:FluidRow>
+				   		<b:Button ui:field="adminButton">Go to admin</b:Button>
+				    </b:FluidRow>
 				</b:Column>
 				<b:Column ui:field="productList" size="10">
 				    <b:Hero>
