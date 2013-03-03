@@ -1,6 +1,7 @@
 package se.niclasolofsson.tddd24.client;
 
 import se.niclasolofsson.tddd24.shared.Category;
+import se.niclasolofsson.tddd24.shared.Order;
 import se.niclasolofsson.tddd24.shared.Product;
 
 import com.github.gwtbootstrap.client.ui.Button;
@@ -82,11 +83,20 @@ public class AdminView extends Composite {
 		productsService.saveCategory(c, callback);
 	}
 	
-	public AdminView(ProductsServiceAsync productsService, MainController mainController) {
+	public AdminView(final ProductsServiceAsync productsService, MainController mainController) {
 		this.productsService = productsService;
 		this.controller = mainController;
 		
 		initWidget(uiBinder.createAndBindUi(this));
+		
+  		final AsyncCallback<Order[]> orderCallback = new AsyncCallback<Order[]>() {
+		      public void onFailure(Throwable caught) {}
+		      public void onSuccess(Order[] result) {
+		    	  for(Order order : result) {
+		    		  orderList.add(order.asWidget());
+		    	  }
+		      }
+		};
 		
 		final AsyncCallback<Category[]> callback = new AsyncCallback<Category[]>() {
 		      public void onFailure(Throwable caught) {}
@@ -106,6 +116,7 @@ public class AdminView extends Composite {
 						saveCategory();
 					}
 		    	  });
+		    	  productsService.getOrders(orderCallback);
 		      }
 		};
 		productsService.getCategories(callback);

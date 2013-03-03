@@ -2,6 +2,7 @@ package se.niclasolofsson.tddd24.server;
 
 import se.niclasolofsson.tddd24.shared.Category;
 import se.niclasolofsson.tddd24.shared.Customer;
+import se.niclasolofsson.tddd24.shared.Order;
 import se.niclasolofsson.tddd24.shared.Product;
 import se.niclasolofsson.tddd24.shared.ShoppingCartEntry;
 import se.niclasolofsson.tddd24.client.ProductsService;
@@ -38,6 +39,14 @@ public class ProductsServiceImpl extends RemoteServiceServlet implements Product
 	}
 
 	@Override
+	public Order[] getOrders() {
+		dm.connect();
+		Order[] res = dm.getOrders();
+		dm.close();
+		return res;
+	}
+	
+	@Override
 	public void saveProduct(Product p) {
 		dm.connect();
 		dm.saveProduct(p);
@@ -65,6 +74,4 @@ public class ProductsServiceImpl extends RemoteServiceServlet implements Product
 		dm.close();
 		return res;
 	}
-
-
 }

@@ -10,7 +10,9 @@ import java.util.ArrayList;
 
 import se.niclasolofsson.tddd24.shared.Category;
 import se.niclasolofsson.tddd24.shared.Customer;
+import se.niclasolofsson.tddd24.shared.Order;
 import se.niclasolofsson.tddd24.shared.Product;
+import se.niclasolofsson.tddd24.shared.ShoppingCart;
 import se.niclasolofsson.tddd24.shared.ShoppingCartEntry;
 
 public class DataManager {
@@ -28,6 +30,16 @@ public class DataManager {
 		} catch (SQLException e2) {
 				// TODO Auto-generated catch block
 				e2.printStackTrace();
+		}
+	}
+	
+	public void close() {
+        try {
+			conn.close();
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 	}
 	
@@ -50,7 +62,11 @@ public class DataManager {
 			s.executeUpdate("CREATE TABLE customers (id INTEGER PRIMARY KEY, name STRING, street STRING, postalCode STRING, city STRING)");
 			
 			s.executeUpdate("DROP TABLE IF EXISTS orderEntries");
-			s.executeUpdate("CREATE TABLE orderEntries (id INTEGER PRIMARY KEY, customer INTEGER, amount INTEGER, product INTEGER)");
+			s.executeUpdate("CREATE TABLE orderEntries (entryId INTEGER PRIMARY KEY, amount INTEGER, product INTEGER, orderId INTEGER)");
+
+			s.executeUpdate("DROP TABLE IF EXISTS orders");
+			s.executeUpdate("CREATE TABLE orders (orderId INTEGER PRIMARY KEY, customer INTEGER)");
+			
 			
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
@@ -113,15 +129,39 @@ public class DataManager {
 		return res.toArray(new Product[res.size()]);
 	}
 	
-	public void close() {
-        try {
-			conn.close();
+
+	public Order[] getOrders() {
+		PreparedStatement s;
+		ArrayList<Order> res = new ArrayList<Order>();
+		ArrayList<ShoppingCartEntry> entries = new ArrayList<ShoppingCartEntry>();
+		Customer c;
+		int orderId = 0;
+		
+		try {
+			s = conn.prepareStatement("SELECT * FROM orders, customers WHERE orders.customer = customers.id");
+			ResultSet rs = s.executeQuery();
+			if(rs.next()) {
+				orderId = rs.getInt("orderId");
+				c = new Customer(rs.getString("name"), rs.getString("street"), rs.getString("postalCode"), rs.getString("city"));
+			}
+	        rs.close();
+	        
+			s = conn.prepareStatement("SELECT * FROM orderEntries, products WHERE orderEntries.product = products.id AND orderEntries.orderId = ?");
+			s.setInt(1, orderId);
+			rs = s.executeQuery();
 			
+			while(rs.next()) {
+				entries.add(new ShoppingCartEntry(new Product(rs.getInt("id"), rs.getString("name"), rs.getString("description"), rs.getFloat("price"), rs.getInt("stock")), rs.getInt("amount")));
+			}
+	        rs.close();
+        
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		
+		return res.toArray(new Order[res.size()]);
 	}
+
 
 	public void saveProduct(Product p) {
 		PreparedStatement s;
@@ -166,11 +206,19 @@ public class DataManager {
 			s.setString(4, customer.getCity());
 			s.executeUpdate();
 			
-			ResultSet keys = s.getGeneratedKeys();
-			int customerId = keys.getInt(1);
+			int customerId = s.getGeneratedKeys().getInt(1);
 			
-			s = conn.prepareStatement("INSERT INTO orderEntries (customer, amount, product) VALUES (?, ?, ?)");
+			s = conn.prepareStatement("INSERT INTO orders (customer) VALUES (?)", 
+	  				  PreparedStatement.RETURN_GENERATED_KEYS);
 			s.setInt(1, customerId);
+			s.executeUpdate();
+			
+			int orderId = s.getGeneratedKeys().getInt(1);
+			
+			s = conn.prepareStatement("INSERT INTO orderEntries (orderId, amount, product) VALUES (?, ?, ?)", 
+					  				  PreparedStatement.RETURN_GENERATED_KEYS);
+			s.setInt(1, orderId);
+			
 			
 			for (ShoppingCartEntry entry : entries) {
 				s.setInt(2, entry.getAmount());
