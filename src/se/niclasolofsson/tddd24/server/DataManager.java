@@ -157,6 +157,7 @@ public class DataManager {
 		        rs.close();
 		        
 		        res.add(new Order(customer, entries.toArray(new ShoppingCartEntry[entries.size()]), orderId));
+		        entries.clear();
 			}
 			
 	        ors.close();
