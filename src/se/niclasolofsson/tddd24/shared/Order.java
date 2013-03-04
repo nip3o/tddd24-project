@@ -4,6 +4,7 @@ import java.io.Serializable;
 
 import com.github.gwtbootstrap.client.ui.FluidRow;
 import com.github.gwtbootstrap.client.ui.Heading;
+import com.github.gwtbootstrap.client.ui.Strong;
 import com.google.gwt.user.client.ui.IsWidget;
 
 public class Order implements Serializable {
@@ -40,7 +41,7 @@ public class Order implements Serializable {
 		for (ShoppingCartEntry e : entries) {
 			r.add(new FluidRow(e.getAmount() + "x " + e.getProduct().getName() + " á " + e.getProduct().getPrice() + " SEK"));
 		}
-		r.add(new FluidRow("Total price: " + this.getTotalPrice() + " SEK"));
+		r.add(new Strong("Total price: " + this.getTotalPrice() + " SEK"));
 		return r;
 	}
 }
