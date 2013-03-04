@@ -19,18 +19,28 @@ public class Order implements Serializable {
 		this.entries = entries;
 	}
 	
-	public IsWidget asWidget() {
-		FluidRow r = new FluidRow();
-		r.add(new Heading(5, orderId + ""));
-		r.add(new FluidRow(customer.getName() + ", " + customer.getStreet() + "<br>" + customer.getCity() + " " + customer.getPostalCode() + " " + customer.getCity()));
-		
-		for (ShoppingCartEntry e : entries) {
-			r.add(new FluidRow(e.getAmount() + " st" + e.getProduct().getName() + ", " + e.getPrice() + " SEK"));
-		}
-		return r;
+	public Order(Customer customer, ShoppingCartEntry[] entries, int orderId) {
+		this(customer, entries);
+		this.orderId = orderId;
 	}
 	
-	public void setOrderId(int orderId) {
-		this.orderId = orderId;
+	public double getTotalPrice() {
+		double res = 0;
+		for (ShoppingCartEntry e : entries) {
+			res += e.getPrice();
+		}
+		return res;
+	}
+	
+	public IsWidget asWidget() {
+		FluidRow r = new FluidRow();
+		r.add(new Heading(5, "OrderID " + orderId));
+		r.add(new FluidRow(customer.getName() + "<br>" + customer.getStreet() + "<br>" + customer.getPostalCode() + " " + customer.getCity()));
+		
+		for (ShoppingCartEntry e : entries) {
+			r.add(new FluidRow(e.getAmount() + "x " + e.getProduct().getName() + " á " + e.getProduct().getPrice() + " SEK"));
+		}
+		r.add(new FluidRow("Total price: " + this.getTotalPrice() + " SEK"));
+		return r;
 	}
 }

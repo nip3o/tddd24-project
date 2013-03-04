@@ -134,26 +134,33 @@ public class DataManager {
 		PreparedStatement s;
 		ArrayList<Order> res = new ArrayList<Order>();
 		ArrayList<ShoppingCartEntry> entries = new ArrayList<ShoppingCartEntry>();
-		Customer c;
+		Customer customer;
 		int orderId = 0;
 		
 		try {
 			s = conn.prepareStatement("SELECT * FROM orders, customers WHERE orders.customer = customers.id");
-			ResultSet rs = s.executeQuery();
-			if(rs.next()) {
-				orderId = rs.getInt("orderId");
-				c = new Customer(rs.getString("name"), rs.getString("street"), rs.getString("postalCode"), rs.getString("city"));
-			}
-	        rs.close();
-	        
-			s = conn.prepareStatement("SELECT * FROM orderEntries, products WHERE orderEntries.product = products.id AND orderEntries.orderId = ?");
-			s.setInt(1, orderId);
-			rs = s.executeQuery();
+			ResultSet ors = s.executeQuery();
 			
-			while(rs.next()) {
-				entries.add(new ShoppingCartEntry(new Product(rs.getInt("id"), rs.getString("name"), rs.getString("description"), rs.getFloat("price"), rs.getInt("stock")), rs.getInt("amount")));
+			// For each order
+			while(ors.next()) {
+				// Get the order id and customer data
+				orderId = ors.getInt("orderId");
+				customer = new Customer(ors.getString("name"), ors.getString("street"), ors.getString("postalCode"), ors.getString("city"));
+				
+				// Get all products for the order
+				s = conn.prepareStatement("SELECT * FROM orderEntries, products WHERE orderEntries.product = products.id AND orderEntries.orderId = ?");
+				s.setInt(1, orderId);
+				ResultSet rs = s.executeQuery();
+				
+				while(rs.next()) {
+					entries.add(new ShoppingCartEntry(new Product(rs.getInt("id"), rs.getString("name"), rs.getString("description"), rs.getFloat("price"), rs.getInt("stock")), rs.getInt("amount")));
+				}
+		        rs.close();
+		        
+		        res.add(new Order(customer, entries.toArray(new ShoppingCartEntry[entries.size()]), orderId));
 			}
-	        rs.close();
+			
+	        ors.close();
         
 		} catch (SQLException e) {
 			e.printStackTrace();
