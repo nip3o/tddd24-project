@@ -5,14 +5,17 @@
 	
 	<g:HTMLPanel>
 	    <b:FluidContainer>
-			<b:FluidRow>
-				<b:Column size="12">
+	        <b:Heading size="2" text="Admin interface"></b:Heading>
+			<b:TabPanel tabPosition="ABOVE" ui:field="tabPanel">
+			    <b:Tab heading="Orders" active="true">
 				   <b:Heading size="4" text="Orders"></b:Heading>
 				   <b:FluidRow>
 				   		<b:Column ui:field="orderList" size="11">
 				    	</b:Column>
 				    </b:FluidRow>
+				</b:Tab>
 				    
+			    <b:Tab heading="Categories">
 				   <b:Heading size="4" text="Add category"></b:Heading>
 				   <b:FluidRow>
 				       <b:TextBox ui:field="categoryName"></b:TextBox>
@@ -20,7 +23,9 @@
 				    <b:FluidRow>
 				    	<b:Button ui:field="addCategory">Save category</b:Button>
 				     </b:FluidRow>
-				     
+				</b:Tab>
+				 
+			    <b:Tab heading="Products">
 				   	<b:Heading size="4" text="Add product"></b:Heading>
 				    <b:FluidRow>
 				        <b:ControlGroup>
@@ -63,9 +68,8 @@
 				    <b:FluidRow>
 				    	<b:Button ui:field="addProduct">Save product</b:Button>
 				     </b:FluidRow>
-				    
-				</b:Column>
-			</b:FluidRow>
+				  </b:Tab>
+			</b:TabPanel>
 		</b:FluidContainer>
 	</g:HTMLPanel>
 </ui:UiBinder> 
