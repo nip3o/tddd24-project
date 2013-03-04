@@ -23,6 +23,8 @@ public class AdminView extends Composite {
 	Button addProduct;
 	@UiField
 	Button addCategory;
+	@UiField
+	Button backButton;
 	
 	@UiField
 	Column orderList;
@@ -118,14 +120,22 @@ public class AdminView extends Composite {
 		      }
 		};
 		
-	  addCategory.addClickHandler(new ClickHandler() {
+		addCategory.addClickHandler(new ClickHandler() {
 			@Override
 			public void onClick(ClickEvent event) {
 				saveCategory();
 			}
-	  });
-	  productsService.getCategories(callback);
-	  updateOrders();
+		});
+		
+		backButton.addClickHandler(new ClickHandler() {
+			@Override
+			public void onClick(ClickEvent event) {
+				controller.showProductList();
+			}
+		});
+		
+		productsService.getCategories(callback);
+		updateOrders();
 	}
 
 }

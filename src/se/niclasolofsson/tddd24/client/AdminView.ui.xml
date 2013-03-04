@@ -6,6 +6,8 @@
 	<g:HTMLPanel>
 	    <b:FluidContainer>
 	        <b:Heading size="2" text="Admin interface"></b:Heading>
+	        <b:Button ui:field="backButton">Back to store</b:Button>
+	        
 			<b:TabPanel tabPosition="ABOVE" ui:field="tabPanel">
 			    <b:Tab heading="Orders" active="true">
 				   <b:Heading size="4" text="Orders"></b:Heading>

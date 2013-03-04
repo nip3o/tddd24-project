@@ -32,6 +32,7 @@ public class MainController implements EntryPoint {
 
 	public void showProductList() {
 		productList.updateCart();
+		productList.updateCategories();
 		
 		RootPanel.get().clear();
 		RootPanel.get().add(productList);

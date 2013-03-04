@@ -12,7 +12,6 @@ import se.niclasolofsson.tddd24.shared.Category;
 import se.niclasolofsson.tddd24.shared.Customer;
 import se.niclasolofsson.tddd24.shared.Order;
 import se.niclasolofsson.tddd24.shared.Product;
-import se.niclasolofsson.tddd24.shared.ShoppingCart;
 import se.niclasolofsson.tddd24.shared.ShoppingCartEntry;
 
 public class DataManager {

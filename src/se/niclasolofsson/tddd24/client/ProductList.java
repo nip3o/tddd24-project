@@ -48,13 +48,6 @@ public class ProductList extends Composite {
 		
 		initWidget(uiBinder.createAndBindUi(this));
 		
-		final AsyncCallback<Category[]> categoriesCallback = new AsyncCallback<Category[]>() {
-		      public void onFailure(Throwable caught) {}
-		      public void onSuccess(Category[] result) {
-		    	  addCategories(result);
-		      }
-		};
-		
 		final AsyncCallback<Void> initCallback = new AsyncCallback<Void>() {
 		      public void onFailure(Throwable caught) {}
 		      public void onSuccess(Void result) {
@@ -63,12 +56,38 @@ public class ProductList extends Composite {
 					public void onClick(ClickEvent event) {
 						controller.showAdmin();
 					}
-				});
-		    	  productsService.getCategories(categoriesCallback);
+		    	  });
+		    	
+		    	  updateCategories();
 		      }
 		};
 		
 		productsService.init(initCallback);
+	}
+	
+	public void updateCategories() {
+		final AsyncCallback<Category[]> categoriesCallback = new AsyncCallback<Category[]>() {
+		      public void onFailure(Throwable caught) {}
+		      public void onSuccess(Category[] result) {
+		    	  categoryList.clear();
+		  		FluidRow r;
+				IconAnchor a;
+				
+				for(final Category c : result) {
+					r = new FluidRow();
+					a = new IconAnchor();
+					a.addClickHandler(new ClickHandler() {
+					    public void onClick(ClickEvent e) {
+					    	listProducts(c);
+					    }
+					});
+					a.setText(c.getName());
+					r.add(a);
+					categoryList.add(r);
+				}
+		      }
+		};
+		productsService.getCategories(categoriesCallback);
 	}
 	
 	private void addToCart(Product p, Category c) {
@@ -107,24 +126,6 @@ public class ProductList extends Composite {
 		productList.add(r);
 	}
 	
-	private void addCategories(Category[] categories) {
-		FluidRow r;
-		IconAnchor a;
-		
-		for(final Category c : categories) {
-			r = new FluidRow();
-			a = new IconAnchor();
-			a.addClickHandler(new ClickHandler() {
-			    public void onClick(ClickEvent e) {
-			    	listProducts(c);
-			    }
-			});
-			a.setText(c.getName());
-			r.add(a);
-			categoryList.add(r);
-		}
-	}
-
 	public void updateCart() {
 		shoppingCartList.clear();
 		shoppingCartList.add(cart.asWidget());

@@ -10,19 +10,19 @@ import com.google.gwt.user.client.Cookies;
 public class ShoppingCart {
 	HashMap<Integer, ShoppingCartEntry> entries = new HashMap<Integer, ShoppingCartEntry>();
 	
-	public void createFromCookie() {
-		String cookie = Cookies.getCookie("cart");
-		
-		if(cookie != null) {
-			String[] entriesStr = cookie.split(" ");
-			
-			for (String entryStr : entriesStr) {
-				String[] temp = entryStr.split(",");
-			}
-		} else {
-			Cookies.setCookie("cart", "");
-		}
-	}
+//	public void createFromCookie() {
+//		String cookie = Cookies.getCookie("cart");
+//		
+//		if(cookie != null) {
+//			String[] entriesStr = cookie.split(" ");
+//			
+//			for (String entryStr : entriesStr) {
+//				String[] temp = entryStr.split(",");
+//			}
+//		} else {
+//			Cookies.setCookie("cart", "");
+//		}
+//	}
 	
 	public void addProduct(Product product, int amount) {
 		if(! entries.containsKey(product.getId())) {
