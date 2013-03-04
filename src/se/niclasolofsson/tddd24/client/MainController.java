@@ -38,6 +38,8 @@ public class MainController implements EntryPoint {
 	}
 	
 	public void showAdmin() {
+		adminView.updateOrders();
+		
 		RootPanel.get().clear();
 		RootPanel.get().add(adminView);
 	}

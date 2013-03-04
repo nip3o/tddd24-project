@@ -71,6 +71,20 @@ public class AdminView extends Composite {
 		productsService.saveProduct(product, callback);
 	}
 	
+	public void updateOrders() {
+		final AsyncCallback<Order[]> orderCallback = new AsyncCallback<Order[]>() {
+		      public void onFailure(Throwable caught) {}
+		      public void onSuccess(Order[] result) {
+		    	  orderList.clear();
+		    	  
+		    	  for(Order order : result) {
+		    		  orderList.add(order.asWidget());
+		    	  }
+		      }
+		};
+		productsService.getOrders(orderCallback);
+	}
+	
 	private void saveCategory() {
 		final AsyncCallback<Category> callback = new AsyncCallback<Category>() {
 		      public void onFailure(Throwable caught) {}
@@ -89,15 +103,6 @@ public class AdminView extends Composite {
 		
 		initWidget(uiBinder.createAndBindUi(this));
 		
-  		final AsyncCallback<Order[]> orderCallback = new AsyncCallback<Order[]>() {
-		      public void onFailure(Throwable caught) {}
-		      public void onSuccess(Order[] result) {
-		    	  for(Order order : result) {
-		    		  orderList.add(order.asWidget());
-		    	  }
-		      }
-		};
-		
 		final AsyncCallback<Category[]> callback = new AsyncCallback<Category[]>() {
 		      public void onFailure(Throwable caught) {}
 		      public void onSuccess(Category[] result) {
@@ -110,16 +115,17 @@ public class AdminView extends Composite {
 						saveProduct();
 					}
 		    	  });
-		    	  addCategory.addClickHandler(new ClickHandler() {
-					@Override
-					public void onClick(ClickEvent event) {
-						saveCategory();
-					}
-		    	  });
-		    	  productsService.getOrders(orderCallback);
 		      }
 		};
-		productsService.getCategories(callback);
+		
+	  addCategory.addClickHandler(new ClickHandler() {
+			@Override
+			public void onClick(ClickEvent event) {
+				saveCategory();
+			}
+	  });
+	  productsService.getCategories(callback);
+	  updateOrders();
 	}
 
 }
