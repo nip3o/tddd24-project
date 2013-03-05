@@ -43,6 +43,10 @@ public class CheckoutView extends Composite {
 			@Override
 			public void onSuccess(Void result) {
 				cart.clear();
+				nameField.setValue("");
+				streetField.setValue("");
+				postalField.setValue("");
+				cityField.setValue("");
 				Window.alert("Your order has been saved!");
 			}
 		};

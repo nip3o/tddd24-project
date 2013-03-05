@@ -230,6 +230,8 @@ public class DataManager {
 			for (ShoppingCartEntry entry : entries) {
 				s.setInt(2, entry.getAmount());
 				s.setInt(3, entry.getProduct().getId());
+				updateStock(entry.getProduct());
+				
 				s.executeUpdate();
 			}
 			
